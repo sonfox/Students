@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Students.Domain.BusquedaDeNotas
 {
-    internal class ParametroBusquedaDeNotas
+    public class ParametroBusquedaDeNotas
     {
         public int Id { get; set; }
 

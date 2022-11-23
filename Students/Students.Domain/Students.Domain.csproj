@@ -55,6 +55,7 @@
     <Compile Include="Entities\BusquedaDeNotas\RespuestaBusquedaDeNotas.cs" />
     <Compile Include="Entities\BusquedaDeAlumnos\ParametroBusquedaDeAlumno.cs" />
     <Compile Include="Entities\BusquedaDeAlumnos\RespuestaBusquedaDeAlumno.cs" />
+    <Compile Include="Exceptions\BusquedaSinParametrosException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

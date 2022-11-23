@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Students.Domain.BusquedaDeNotas
 {
-    internal class RespuestaBusquedaDeNotas
+    public class RespuestaBusquedaDeNotas
     {
 
         public int NotaId { get; set; }
@@ -17,6 +17,6 @@ namespace Students.Domain.BusquedaDeNotas
 
         public DateTime Fecha { get; set; }
 
-        public int TipoNota { get; set; }
+        public int TipoExamen { get; set; }
     }
 }

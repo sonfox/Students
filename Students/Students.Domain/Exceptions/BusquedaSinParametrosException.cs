@@ -8,5 +8,6 @@ namespace Students.Persistence.Exceptions
 {
     public class BusquedaSinParametrosException : Exception
     {
+       
     }
 }
