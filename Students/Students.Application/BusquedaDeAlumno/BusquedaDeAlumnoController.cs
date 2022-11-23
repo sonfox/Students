@@ -25,15 +25,7 @@ namespace Students.Application.BusquedaDeAlumno
             //consulta sin where, trae todo de la tabla students
             var consulta = from d in db.Students
                            select d;
-
-            if (!string.IsNullOrWhiteSpace(filtros.Alumno))
-                consulta = from q in consulta where q.Name.Contains(filtros.Alumno) select q;
-
-            if (filtros.EstaGraduado.HasValue)
-                if (filtros.EstaGraduado == true)
-                    consulta = from q in consulta where q.GraduationYear.HasValue select q;
-                else
-                    consulta = from q in consulta where q.GraduationYear.HasValue == false select q;
+            
 
             var resultados = from d in consulta
                              select new RespuestaBusquedaDeAlumno
@@ -46,6 +38,37 @@ namespace Students.Application.BusquedaDeAlumno
                                  Promedio = d.Average
 
                              };
+            // agrego los where según corresponda
+
+           // if (!string.IsNullOrWhiteSpace(filtros.Alumno))
+               // consulta = from q in consulta where q.Name.Contains(filtros.Alumno) select q;
+
+            if (filtros.Alumno != null)
+                consulta = from q in consulta
+                           where q.Name.Contains(filtros.Alumno)
+                           select q;
+
+            if (filtros.EstaGraduado.HasValue)
+                if (filtros.EstaGraduado == true)
+                    consulta = from q in consulta where q.GraduationYear.HasValue select q;
+                else
+                    consulta = from q in consulta where q.GraduationYear.HasValue == false select q;
+
+            if (filtros.YearDeGraduciaon != null)
+                consulta =  from q in consulta
+                            where q.GraduationYear == filtros.YearDeGraduciaon.Value
+                            select q;
+
+            if (filtros.YearDeInicio != null)
+                consulta = from q in consulta
+                           where q.EnrollmentYear == filtros.YearDeInicio.Value
+                           select q;
+
+            if (filtros.Promedio != null)
+                consulta = from q in consulta
+                           where q.Average == filtros.Promedio.Value
+                           select q;
+
 
             return resultados.ToList();
 

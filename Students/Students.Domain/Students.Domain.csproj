@@ -51,8 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusquedaDeNotas\ParametroBusquedaDeNotas.cs" />
-    <Compile Include="BusquedaDeNotas\RespuestaBusquedaDeNotas.cs" />
+    <Compile Include="Entities\BusquedaDeNotas\ParametroBusquedaDeNotas.cs" />
+    <Compile Include="Entities\BusquedaDeNotas\RespuestaBusquedaDeNotas.cs" />
     <Compile Include="Entities\BusquedaDeAlumnos\ParametroBusquedaDeAlumno.cs" />
     <Compile Include="Entities\BusquedaDeAlumnos\RespuestaBusquedaDeAlumno.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
