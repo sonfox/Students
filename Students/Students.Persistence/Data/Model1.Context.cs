@@ -26,9 +26,9 @@ namespace Students.Persistence.Data
         }
     
         public virtual DbSet<Grades> Grades { get; set; }
-        public virtual DbSet<Students> Students { get; set; }
         public virtual DbSet<StudentsAverageByYear> StudentsAverageByYear { get; set; }
         public virtual DbSet<Subjects> Subjects { get; set; }
         public virtual DbSet<SubjectsAverageByYear> SubjectsAverageByYear { get; set; }
+        public virtual DbSet<Students> Students { get; set; }
     }
 }

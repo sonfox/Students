@@ -24,7 +24,7 @@ namespace Students.Persistence.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public int EnrollmentYear { get; set; }
+        public System.DateTime EnrollmentYear { get; set; }
         public Nullable<int> GraduationYear { get; set; }
         public decimal Average { get; set; }
     

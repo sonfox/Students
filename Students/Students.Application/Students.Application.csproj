@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="BusquedaDeAlumno\BusquedaDeAlumnoController.cs" />
     <Compile Include="BusquedaDeNotas\BusquedaDeNotasContoller.cs" />
+    <Compile Include="GrabarAlumno\GrabarAlumnoController.cs" />
+    <Compile Include="GrabarNota\GrabarNotaController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,7 @@ namespace Students.Persistence.Data
         public byte GradeNumber { get; set; }
         public byte GradeType { get; set; }
     
-        public virtual Students Students { get; set; }
         public virtual Subjects Subjects { get; set; }
+        public virtual Students Students { get; set; }
     }
 }

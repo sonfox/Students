@@ -14,7 +14,7 @@ namespace Students.Domain.Entities.BusquedaDeAlumnos
 
         public string Mail { get; set; }
 
-        public int YearDeInicio { get; set; }
+        public DateTime YearDeInicio { get; set; }
 
         public int? YearDeGraduacion { get; set; }
 

@@ -6,14 +6,14 @@
     <edmx:Diagrams>
       <Diagram DiagramId="57650ddff2d14159a3c1477638919618" Name="Diagram1">
         <EntityTypeShape EntityType="StudentsDBModel.Grades" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentsDBModel.Students" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentsDBModel.StudentsAverageByYear" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentsDBModel.Subjects" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentsDBModel.SubjectsAverageByYear" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
-        <AssociationConnector Association="StudentsDBModel.FK_Grades_Students" ManuallyRouted="false" />
         <AssociationConnector Association="StudentsDBModel.FK_Grades_Subjects" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentsDBModel.FK_StudentsAverageByYear_Students" ManuallyRouted="false" />
         <AssociationConnector Association="StudentsDBModel.FK_SubjectsAverageByYear_Subjects" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StudentsDBModel.Students" Width="1.5" PointX="0.75" PointY="7.125" />
+        <AssociationConnector Association="StudentsDBModel.FK_Grades_Students" />
+        <AssociationConnector Association="StudentsDBModel.FK_StudentsAverageByYear_Students" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
