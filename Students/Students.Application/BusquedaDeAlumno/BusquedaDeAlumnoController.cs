@@ -66,7 +66,7 @@ namespace Students.Application.BusquedaDeAlumno
 
             if (filtros.Promedio != null)
                 consulta = from q in consulta
-                           where q.Average == filtros.Promedio.Value
+                           where q.Average >= filtros.Promedio.Value
                            select q;
 
 
