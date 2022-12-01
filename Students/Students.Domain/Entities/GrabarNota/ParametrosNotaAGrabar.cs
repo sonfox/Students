@@ -20,7 +20,7 @@ namespace Students.Domain.Entities.GrabarNota
 
         public Byte TipoDeExamen { get; set; }
 
-
+        public DateTime FechaActual = DateTime.Today;
 
 
     }

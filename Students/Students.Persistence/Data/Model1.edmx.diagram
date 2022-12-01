@@ -8,12 +8,13 @@
         <EntityTypeShape EntityType="StudentsDBModel.Grades" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentsDBModel.StudentsAverageByYear" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentsDBModel.Subjects" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentsDBModel.SubjectsAverageByYear" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
         <AssociationConnector Association="StudentsDBModel.FK_Grades_Subjects" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentsDBModel.FK_SubjectsAverageByYear_Subjects" ManuallyRouted="false" />
         <EntityTypeShape EntityType="StudentsDBModel.Students" Width="1.5" PointX="0.75" PointY="7.125" />
         <AssociationConnector Association="StudentsDBModel.FK_Grades_Students" />
         <AssociationConnector Association="StudentsDBModel.FK_StudentsAverageByYear_Students" />
+        <EntityTypeShape EntityType="StudentsDBModel.SubjectsAverageByYear" Width="1.5" PointX="3.375" PointY="7.875" />
+        <EntityTypeShape EntityType="StudentsDBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <AssociationConnector Association="StudentsDBModel.FK_SubjectsAverageByYear_Subjects" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

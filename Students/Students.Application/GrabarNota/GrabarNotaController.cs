@@ -34,6 +34,24 @@ namespace Students.Application.GrabarNota
 
 
         }
+        private void PromedioXAño (ParametrosNotaAGrabar nota, StudentsDBEntities db)
+        {
+            if (nota.TipoDeExamen == 3)
+            {
+                var con = from h in db.StudentsAverageByYear
+                          join m in db.Subjects on h.Id equals m.Id
+                          where h.Year == nota.FechaActual.Year
+                          select h;
+
+            }
+
+        }
+
+        private void PromedioTotal(ParametrosNotaAGrabar nota, StudentsDBEntities db)
+        {
+
+
+        }
 
         private void Validar(ParametrosNotaAGrabar nota, StudentsDBEntities db)
         {
@@ -46,7 +64,23 @@ namespace Students.Application.GrabarNota
             {
                 throw new NotImplementedException("fecha erronea");
             }
+            if(nota.MateriaId != null)
+            {
+                var con = from c in db.Subjects
+                          where c.Id == nota.MateriaId
+                          select c;
+                if (con == null)
+                    throw new Exception("el id de la materia no existe");
+               
+            }
 
+            if (nota.AlumnoId != null)
+            {
+                var j = from c in db.Students
+                        where c.Id == nota.AlumnoId
+                        select c;
+                if (j == null) throw new Exception("el id del alumno no existe");
+            }
 
         }
     }

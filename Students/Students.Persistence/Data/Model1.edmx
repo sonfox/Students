@@ -33,7 +33,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StudentId" Type="int" Nullable="false" />
-          <Property Name="Year" Type="smallint" Nullable="false" />
+          <Property Name="Year" Type="datetime" Nullable="false" />
           <Property Name="Average" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GradeQuantity" Type="smallint" Nullable="false" />
         </EntityType>
@@ -53,6 +53,16 @@
           <Property Name="Year" Type="smallint" Nullable="false" />
           <Property Name="Average" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="GradeQuantity" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Grades_Students">
           <End Role="Students" Type="Self.Students" Multiplicity="1" />
@@ -108,6 +118,7 @@
           <EntitySet Name="StudentsAverageByYear" EntityType="Self.StudentsAverageByYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubjectsAverageByYear" EntityType="Self.SubjectsAverageByYear" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Grades_Students" Association="Self.FK_Grades_Students">
             <End Role="Students" EntitySet="Students" />
             <End Role="Grades" EntitySet="Grades" />
@@ -160,18 +171,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Grades" Relationship="Self.FK_Grades_Subjects" FromRole="Subjects" ToRole="Grades" />
-          <NavigationProperty Name="SubjectsAverageByYear" Relationship="Self.FK_SubjectsAverageByYear_Subjects" FromRole="Subjects" ToRole="SubjectsAverageByYear" />
-        </EntityType>
-        <EntityType Name="SubjectsAverageByYear">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubjectId" Type="Int32" Nullable="false" />
-          <Property Name="Year" Type="Int16" Nullable="false" />
-          <Property Name="Average" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="GradeQuantity" Type="Int16" Nullable="false" />
-          <NavigationProperty Name="Subjects" Relationship="Self.FK_SubjectsAverageByYear_Subjects" FromRole="SubjectsAverageByYear" ToRole="Subjects" />
+          <NavigationProperty Name="SubjectsAverageByYear" Relationship="StudentsDBModel.FK_SubjectsAverageByYear_Subjects" FromRole="Subjects" ToRole="SubjectsAverageByYear" />
         </EntityType>
         <Association Name="FK_Grades_Subjects">
           <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
@@ -185,30 +185,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SubjectsAverageByYear_Subjects">
-          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
-          <End Role="SubjectsAverageByYear" Type="Self.SubjectsAverageByYear" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Subjects">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SubjectsAverageByYear">
-              <PropertyRef Name="SubjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="StudentsDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Grades" EntityType="Self.Grades" />
           <EntitySet Name="StudentsAverageByYear" EntityType="Self.StudentsAverageByYear" />
           <EntitySet Name="Subjects" EntityType="Self.Subjects" />
-          <EntitySet Name="SubjectsAverageByYear" EntityType="Self.SubjectsAverageByYear" />
           <AssociationSet Name="FK_Grades_Subjects" Association="Self.FK_Grades_Subjects">
             <End Role="Subjects" EntitySet="Subjects" />
             <End Role="Grades" EntitySet="Grades" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubjectsAverageByYear_Subjects" Association="Self.FK_SubjectsAverageByYear_Subjects">
-            <End Role="Subjects" EntitySet="Subjects" />
-            <End Role="SubjectsAverageByYear" EntitySet="SubjectsAverageByYear" />
           </AssociationSet>
           <EntitySet Name="Students" EntityType="StudentsDBModel.Students" />
           <AssociationSet Name="FK_Grades_Students" Association="StudentsDBModel.FK_Grades_Students">
@@ -218,6 +201,12 @@
           <AssociationSet Name="FK_StudentsAverageByYear_Students" Association="StudentsDBModel.FK_StudentsAverageByYear_Students">
             <End Role="Students" EntitySet="Students" />
             <End Role="StudentsAverageByYear" EntitySet="StudentsAverageByYear" />
+          </AssociationSet>
+          <EntitySet Name="SubjectsAverageByYear" EntityType="StudentsDBModel.SubjectsAverageByYear" />
+          <EntitySet Name="sysdiagrams" EntityType="StudentsDBModel.sysdiagrams" />
+          <AssociationSet Name="FK_SubjectsAverageByYear_Subjects" Association="StudentsDBModel.FK_SubjectsAverageByYear_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="SubjectsAverageByYear" EntitySet="SubjectsAverageByYear" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Students">
@@ -254,6 +243,39 @@
             </Principal>
             <Dependent Role="StudentsAverageByYear">
               <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubjectsAverageByYear">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int16" Nullable="false" />
+          <Property Name="Average" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="GradeQuantity" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="StudentsDBModel.FK_SubjectsAverageByYear_Subjects" FromRole="SubjectsAverageByYear" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_SubjectsAverageByYear_Subjects">
+          <End Type="StudentsDBModel.Subjects" Role="Subjects" Multiplicity="1" />
+          <End Type="StudentsDBModel.SubjectsAverageByYear" Role="SubjectsAverageByYear" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubjectsAverageByYear">
+              <PropertyRef Name="SubjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -294,17 +316,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SubjectsAverageByYear">
-            <EntityTypeMapping TypeName="StudentsDBModel.SubjectsAverageByYear">
-              <MappingFragment StoreEntitySet="SubjectsAverageByYear">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Average" ColumnName="Average" />
-                <ScalarProperty Name="GradeQuantity" ColumnName="GradeQuantity" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Students">
             <EntityTypeMapping TypeName="StudentsDBModel.Students">
               <MappingFragment StoreEntitySet="Students">
@@ -314,6 +325,28 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubjectsAverageByYear">
+            <EntityTypeMapping TypeName="StudentsDBModel.SubjectsAverageByYear">
+              <MappingFragment StoreEntitySet="SubjectsAverageByYear">
+                <ScalarProperty Name="GradeQuantity" ColumnName="GradeQuantity" />
+                <ScalarProperty Name="Average" ColumnName="Average" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StudentsDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
