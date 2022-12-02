@@ -36,22 +36,57 @@ namespace Students.Application.GrabarNota
         }
         private void PromedioXAño (ParametrosNotaAGrabar nota, StudentsDBEntities db)
         {
-            if (nota.TipoDeExamen == 3)
+            if (nota.TipoDeExamen == 3 )
             {
-                var con = from h in db.StudentsAverageByYear
-                          join m in db.Subjects on h.Id equals m.Id
-                          where h.Year == nota.FechaActual.Year
-                          select h;
+                var consulta = from bas in db.StudentsAverageByYear
+                               join s in db.Students on bas.StudentId equals s.Id
+                               where bas.Year == nota.FechaActual.Year
+                               select bas;
+                if (consulta != null)
+                {
+                    StudentsAverageByYear cont = (from aby in db.StudentsAverageByYear
+                                                   join s in db.Students on aby.StudentId equals s.Id
+                                                   where aby.Year == nota.FechaActual.Year
+                                                   select aby).First();
+                    cont.GradeQuantity = (short)(cont.GradeQuantity + 1);
+                    cont.Average = (cont.Average + nota.Nota) / (2 );
+                    db.SaveChanges();
+
+
+                }
+
+
+
+                if (consulta == null)
+                {
+                    var FilaDB = db.StudentsAverageByYear.Create();
+                    FilaDB.Year = (short)nota.FechaActual.Year;
+                    FilaDB.Average = nota.Nota;
+                    FilaDB.GradeQuantity = 1;
+                    FilaDB.StudentId = nota.AlumnoId;
+                    db.StudentsAverageByYear.Add(FilaDB);
+                    db.SaveChanges();
+
+                    int IDaby = FilaDB.Id;
+
+                }
+
+                
+                    var con = (from dat in db.Students
+                               join s in db.Grades on dat.Id equals s.StudentId
+                               where s.GradeType == 3
+                               select dat).First();
+
+                    con.Students.Average = (con.Students.Average + nota.Nota) / (2);
+                    db.SaveChanges();
+                
+
 
             }
 
         }
 
-        private void PromedioTotal(ParametrosNotaAGrabar nota, StudentsDBEntities db)
-        {
-
-
-        }
+        
 
         private void Validar(ParametrosNotaAGrabar nota, StudentsDBEntities db)
         {
@@ -64,7 +99,7 @@ namespace Students.Application.GrabarNota
             {
                 throw new NotImplementedException("fecha erronea");
             }
-            if(nota.MateriaId != null)
+            if(nota.MateriaId != 0)
             {
                 var con = from c in db.Subjects
                           where c.Id == nota.MateriaId
@@ -74,7 +109,7 @@ namespace Students.Application.GrabarNota
                
             }
 
-            if (nota.AlumnoId != null)
+            if (nota.AlumnoId != 0)
             {
                 var j = from c in db.Students
                         where c.Id == nota.AlumnoId
