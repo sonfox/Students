@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace Students.Application.GrabarNota
 
 
         }
-        private void PromedioXAño (ParametrosNotaAGrabar nota, StudentsDBEntities db)
+        private void Promedio(ParametrosNotaAGrabar nota, StudentsDBEntities db)
         {
             if (nota.TipoDeExamen == 3 )
             {
@@ -70,22 +71,60 @@ namespace Students.Application.GrabarNota
                     int IDaby = FilaDB.Id;
 
                 }
+                var con = (from dat in db.Students
+                           join s in db.Grades on dat.Id equals s.StudentId
+                           where s.GradeType == 3 
+                           select dat).First();
+                con.Average = (con.Average + nota.Nota) /2;
+                db.SaveChanges();
 
                 
-                    var con = (from dat in db.Students
-                               join s in db.Grades on dat.Id equals s.StudentId
-                               where s.GradeType == 3
-                               select dat).First();
 
-                    con.Students.Average = (con.Students.Average + nota.Nota) / (2);
-                    db.SaveChanges();
                 
+
+            }
+
+            
+            
+
+
+        }
+
+        private void ProXMateriaXAño(ParametrosNotaAGrabar nota, StudentsDBEntities db)
+        {
+            if (nota.TipoDeExamen == 3)
+            {
+                var consul = (from dl in db.SubjectsAverageByYear
+                             join ff in db.Subjects on dl.SubjectId equals ff.Id
+                             where dl.Year == nota.FechaActual.Year
+                             select dl).First();
+                if (consul != null)
+                {
+                    consul.GradeQuantity = ((short)(consul.GradeQuantity + 1));
+                     consul.Average  = (consul.Average+ nota.Nota) /2;
+                    db.SaveChanges() ;
+
+                }
+                if (consul == null)
+                {
+                    var fdb = db.SubjectsAverageByYear.Create();
+                    fdb.Year = (short)nota.FechaActual.Year;
+                    fdb.Average = nota.Nota;
+                    fdb.GradeQuantity = 1;
+                    fdb.SubjectId = nota.MateriaId;
+                    db.SubjectsAverageByYear.Add(fdb);
+                    db.SaveChanges() ;
+
+                }
+
+
 
 
             }
 
-        }
 
+
+        }
         
 
         private void Validar(ParametrosNotaAGrabar nota, StudentsDBEntities db)
