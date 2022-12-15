@@ -16,8 +16,11 @@ namespace Students.Application.BusquedaDeNotas
 
             var db = new StudentsDBEntities();
 
+
+
             var consulta = from f in db.Grades
                            join nam in db.Subjects on f.SubjectId equals nam.Id
+                           join l in db.Students on f.StudentId equals l.Id
                             select new RespuestaBusquedaDeNotas
                             {
                                 NotaId = f.Id,
