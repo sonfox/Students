@@ -29,6 +29,10 @@ namespace Students.Application.GrabarNota
             db.SaveChanges();
 
             int nId = Ebd.Id;
+            Promedio(nota, db);
+            ProXMateriaXAño(nota, db);
+
+
            return nId;
 
            
