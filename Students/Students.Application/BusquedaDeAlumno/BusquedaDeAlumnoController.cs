@@ -48,11 +48,11 @@ namespace Students.Application.BusquedaDeAlumno
                            where q.Name.Contains(filtros.Alumno)
                            select q;
 
-            if (filtros.EstaGraduado.HasValue)
+            if (filtros.EstaGraduado != null)
                 if (filtros.EstaGraduado == true)
-                    consulta = from q in consulta where q.GraduationYear.HasValue select q;
+                    consulta = from q in consulta where q.GraduationYear != null select q;
                 else
-                    consulta = from q in consulta where q.GraduationYear.HasValue == false select q;
+                    consulta = from q in consulta where q.GraduationYear == null select q;
 
             if (filtros.YearDeGraduciaon != null)
                 consulta =  from q in consulta
